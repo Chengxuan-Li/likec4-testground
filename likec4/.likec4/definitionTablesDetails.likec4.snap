@@ -13,7 +13,7 @@
     nodeSep: 55,
     rankSep: 80,
   },
-  hash: '6gCsC-uUGSOA8XfY0b4UQzoel_qnHu6QIjlYI4z_pnA',
+  hash: 'fYf5KyPHXFV-ki-pizF6jSmviMu5ZuVlPGpBwKiQkks',
   bounds: {
     x: 0,
     y: 0,
@@ -76,6 +76,7 @@
       modelRef: 'definitionTables',
       shape: 'storage',
       color: 'gray',
+      icon: 'gcp:bigtable',
       style: {
         opacity: 15,
         size: 'sm',
@@ -84,6 +85,7 @@
         txt: 'Building and Zone definitions',
       },
       tags: [],
+      technology: 'Bigtable',
       kind: 'system',
       depth: 1,
       x: 530,
@@ -196,7 +198,7 @@
       },
       parent: null,
       relations: [
-        'ahfobv',
+        '14byc3k',
       ],
       color: 'gray',
       line: 'dashed',
@@ -233,7 +235,7 @@
       },
       parent: null,
       relations: [
-        '1imblxb',
+        '1wtn2eq',
       ],
       color: 'gray',
       line: 'dashed',

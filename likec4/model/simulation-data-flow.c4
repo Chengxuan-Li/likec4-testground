@@ -1,6 +1,7 @@
 model {
   inputs = system 'Inputs' {
     description 'External file and weather inputs'
+    icon gcp:user-preferences
     style {
       color amber
       shape person
@@ -105,6 +106,7 @@ model {
 
   definitionTables = system 'Definition Tables' {
     description 'Building and Zone definitions'
+    icon gcp:bigtable
     style {
       shape storage
     }
@@ -118,53 +120,80 @@ model {
     }
   }
 
-  precomputeBoundary = stage 'Precompute Boundary Conditions' {
-    description 'Derives local weather, face radiation, and boundary conditions required by Zone5R1C'
-    icon gcp:dataflow
+  simulation = stage 'Simulation' {
+    description 'Boundary-condition preparation, Zone5R1C execution, and result aggregation'
+    icon gcp:compute-engine
 
-    localWeather = stage 'Local Weather' {
-      description 'Resolves zone-local weather conditions from site weather and zone context'
+    precomputeBoundary = stage 'Precompute Boundary Conditions' {
+      description 'Derives local weather, face radiation, and boundary conditions required by Zone5R1C'
+      icon gcp:dataflow
+
+      localWeather = stage 'Local Weather' {
+        description 'Resolves zone-local weather conditions from site weather and zone context'
+      }
+
+      faceRadiation = stage 'Face Radiation' {
+        description 'Computes radiation conditions for zone faces'
+      }
+
+      boundaryConditions = stage 'Boundary Conditions' {
+        description 'Assembles the boundary conditions consumed by Zone5R1C'
+      }
+
+      localWeather -> faceRadiation 'local weather'
+      faceRadiation -> boundaryConditions 'surface radiation'
     }
 
-    faceRadiation = stage 'Face Radiation' {
-      description 'Computes radiation conditions for zone faces'
+    zone5R1C = stage 'Zone5R1C Simulation' {
+      description 'Simulates prepared Zone5R1C objects with weather input'
+      icon gcp:compute-engine
     }
 
-    boundaryConditions = stage 'Boundary Conditions' {
-      description 'Assembles the boundary conditions consumed by Zone5R1C'
-    }
+    resultsAggregation = stage 'Results Aggregation' {
+      description 'Zone, Building, and Site result aggregation'
+      icon gcp:big-query
 
-    localWeather -> faceRadiation 'local weather'
-    faceRadiation -> boundaryConditions 'surface radiation'
+      zoneResult = result 'ZoneResult' {
+        description 'Zone-level simulation result'
+      }
+
+      buildingResult = result 'BuildingResult' {
+        description 'Building-level aggregate result'
+      }
+
+      siteEnergyResult = result 'SiteEnergyResult' {
+        description 'Site-level aggregate energy result'
+      }
+
+      zoneResult -> buildingResult 'aggregates into'
+      buildingResult -> siteEnergyResult 'aggregates into'
+    }
   }
 
-  zone5R1C = stage 'Zone5R1C Simulation' {
-    description 'Simulates prepared Zone5R1C objects with weather input'
+  baselineSimulation = stage 'Baseline' {
+    description 'Reference simulation without scenario upgrades'
     icon gcp:compute-engine
   }
 
-  resultsAggregation = stage 'Results Aggregation' {
-    description 'Zone, Building, and Site result aggregation'
-    icon gcp:big-query
-
-    zoneResult = result 'ZoneResult' {
-      description 'Zone-level simulation result'
+  scenarioMappings = stage 'Scenario Mappings' {
+    description 'Apply measure packages based on selection criteria for each scenario'
+    icon gcp:workflows
+    style {
+      multiple true
     }
+  }
 
-    buildingResult = result 'BuildingResult' {
-      description 'Building-level aggregate result'
+  buildingUpgradeScenarios = domainObject 'Building Upgrade Scenarios' {
+    description 'Building copies with scenario selections and measures applied'
+    icon gcp:catalog
+    style {
+      multiple true
     }
-
-    siteEnergyResult = result 'SiteEnergyResult' {
-      description 'Site-level aggregate energy result'
-    }
-
-    zoneResult -> buildingResult 'aggregates into'
-    buildingResult -> siteEnergyResult 'aggregates into'
   }
 
   resultTables = system 'Result Tables' {
     description 'Persistent simulation-result tables'
+    icon gcp:big-query
     style {
       shape storage
     }
@@ -182,8 +211,48 @@ model {
     }
   }
 
+  mixerInput = system 'Input' {
+    description 'Modeling parameters supplied to the post-hoc scenario mixer'
+    icon gcp:user-preferences
+    style {
+      color amber
+      shape person
+    }
+  }
+
+  webUI = ui 'WebUI' {
+    description 'Interactive interface for mixer requests and scenario-result styling'
+    icon gcp:app-engine
+  }
+
+  scenarioMixer = system 'Scenario Mixer' {
+    description 'Applies choice-model parameters to annual results and returns a styled scenario mixture'
+    icon gcp:advanced-agent-modeling
+
+    siteEnergyResult = result 'SiteEnergyResult' {
+      description 'Annual per-building site energy results loaded from persistence'
+      icon gcp:big-query
+    }
+
+    choiceModel = stage 'Choice Model' {
+      description 'Converts modeling parameters and API requests into mixer parameters'
+      icon gcp:vertex-ai
+    }
+
+    modeledMixtureSelection = stage 'Modeled Mixture Selection' {
+      description 'Applies mixer parameters to the modeled scenario mixture'
+      icon gcp:recommendations-ai
+    }
+
+    scenarioResults = result 'Scenario Results' {
+      description 'Real-time scenario aggregation returned to the WebUI'
+      icon gcp:looker
+    }
+  }
+
   gisTables = system 'GIS Tables' {
     description 'GIS properties and selected result projections'
+    icon gcp:google-maps-platform
     style {
       shape storage
     }
@@ -205,24 +274,39 @@ model {
   inputs.inputGeojson -> preprocessing 'feature data'
   preprocessing -> gisTables.gisPropertiesTable 'processed collection data'
   preprocessing -> feature2Building.feature 'emits'
+  preprocessing -> scenarioMappings 'feeds'
 
   feature2Building.building -> definitionTables.buildingDefinitionTable 'writes definition'
   feature2Building.zones -> definitionTables.zoneDefinitionTable 'writes definition + load series'
-  feature2Building.zones -> precomputeBoundary.localWeather 'zone geometry + location'
+  feature2Building.zones -> simulation.precomputeBoundary.localWeather 'zone geometry + location'
+  feature2Building.zones -> baselineSimulation 'zone geometry + location'
+  feature2Building -> buildingUpgradeScenarios 'Copy of Building'
+  scenarioMappings -> buildingUpgradeScenarios 'applied selections and scenario measures'
+  buildingUpgradeScenarios -> definitionTables
+  buildingUpgradeScenarios -> simulation 'copy of instance'
+  baselineSimulation -> simulation
 
-  precomputeBoundary.boundaryConditions -> zone5R1C 'boundary conditions'
-  inputs.weather -> precomputeBoundary.localWeather 'weather input'
-  inputs.weather -> precomputeBoundary.faceRadiation 'weather input'
-  inputs.weather -> zone5R1C 'weather input'
-  zone5R1C -> resultsAggregation.zoneResult 'emits'
-  feature2Building.energyLoadsArchetype -> resultsAggregation.siteEnergyResult 'supplies External loads'
+  simulation.precomputeBoundary.boundaryConditions -> simulation.zone5R1C 'boundary conditions'
+  inputs.weather -> simulation.precomputeBoundary.localWeather 'weather input'
+  inputs.weather -> simulation.precomputeBoundary.faceRadiation 'weather input'
+  inputs.weather -> simulation.zone5R1C 'weather input'
+  simulation.zone5R1C -> simulation.resultsAggregation.zoneResult 'emits'
+  feature2Building.energyLoadsArchetype -> simulation.resultsAggregation.siteEnergyResult 'supplies External loads'
 
-  precomputeBoundary -> resultTables.zoneResultTable 'writes boundary results'
-  resultsAggregation.zoneResult -> resultTables.zoneResultTable 'persists'
-  resultsAggregation.buildingResult -> resultTables.buildingResultTable 'persists'
-  resultsAggregation.siteEnergyResult -> resultTables.siteEnergyResultTable 'persists'
+  simulation.precomputeBoundary -> resultTables.zoneResultTable 'writes boundary results'
+  simulation.resultsAggregation.zoneResult -> resultTables.zoneResultTable 'persists'
+  simulation.resultsAggregation.buildingResult -> resultTables.buildingResultTable 'persists'
+  simulation.resultsAggregation.siteEnergyResult -> resultTables.siteEnergyResultTable 'persists'
 
-  resultsAggregation.siteEnergyResult -> gisTables.gisResultTable 'selective GIS projection'
+  resultTables.siteEnergyResultTable -> scenarioMixer.siteEnergyResult 'BuildingId, Annual Results'
+  mixerInput -> scenarioMixer.choiceModel 'Modeling Parameters'
+  scenarioMixer.choiceModel -> scenarioMixer.modeledMixtureSelection 'Mixer Parameters'
+  webUI -> scenarioMixer.choiceModel 'API Call with Mixer Parameters'
+  scenarioMixer.siteEnergyResult -> scenarioMixer.modeledMixtureSelection
+  scenarioMixer.modeledMixtureSelection -> scenarioMixer.scenarioResults 'Real Time Aggregation'
+  scenarioMixer.scenarioResults -> webUI 'API Response Triggering Style Update'
+
+  simulation.resultsAggregation.siteEnergyResult -> gisTables.gisResultTable 'selective GIS projection'
   gisTables.gisPropertiesTable -> resultsGeojson 'exports properties'
   gisTables.gisResultTable -> resultsGeojson 'exports results'
 }

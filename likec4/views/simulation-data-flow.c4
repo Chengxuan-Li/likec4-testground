@@ -3,9 +3,9 @@ views {
     title 'Simulation Stages and Data Flow'
     description 'From GeoJSON ingestion through simulation, aggregation, persistence, and GIS export'
 
-    group 'Simulation Processing' {
+    group 'UBEM' {
       color indigo
-      opacity 10%
+      opacity 6%
       border solid
 
       include preprocessing
@@ -13,13 +13,14 @@ views {
         feature2Building with {
           navigateTo feature2BuildingDetails
         }
+
       include
-        precomputeBoundary with {
+        simulation.precomputeBoundary with {
           navigateTo precomputeBoundaryDetails
         }
-      include zone5R1C
+      include simulation.zone5R1C
       include
-        resultsAggregation with {
+        simulation.resultsAggregation with {
           navigateTo resultsAggregationDetails
         }
     }
@@ -42,11 +43,87 @@ views {
       }
     include resultsGeojson
 
-    exclude feature2Building.energyLoadsArchetype -> resultsAggregation.siteEnergyResult
+    exclude feature2Building.energyLoadsArchetype -> simulation.resultsAggregation.siteEnergyResult
 
     rank same {
       definitionTables, resultTables, gisTables
     }
+
+    autoLayout LeftRight 80 55
+  }
+
+  view scenarioSimulationView {
+    title 'Scenario Simulation View'
+    description 'From processed features and scenario mappings through building upgrades, copied simulation instances, persistence, and GIS export'
+
+    group 'UBEM' {
+      color indigo
+      opacity 6%
+      border solid
+
+      include preprocessing
+      include
+        feature2Building with {
+          navigateTo feature2BuildingDetails
+        }
+      include scenarioMappings
+      include buildingUpgradeScenarios
+      include
+        simulation with {
+          navigateTo simulationDetails
+          multiple true
+        }
+      include baselineSimulation
+    }
+
+    include
+      inputs with {
+        navigateTo inputsDetails
+      }
+    include
+      definitionTables with {
+        navigateTo definitionTablesDetails
+      }
+    include
+      resultTables with {
+        navigateTo resultTablesDetails
+      }
+    include
+      gisTables with {
+        navigateTo gisTablesDetails
+      }
+    include resultsGeojson
+
+    exclude feature2Building.energyLoadsArchetype -> simulation.resultsAggregation.siteEnergyResult
+    exclude feature2Building.zones -> simulation.precomputeBoundary.localWeather
+
+    rank same {
+      definitionTables, resultTables, gisTables
+    }
+    rank same {
+      simulation, baselineSimulation
+    }
+
+    autoLayout LeftRight 80 55
+  }
+
+  view postHocScenarioMixerView {
+    title 'Post-hoc Scenario Mixer View'
+    description 'From persisted annual results and modeling parameters through modeled mixture selection to a WebUI style update'
+
+    include mixerInput
+    include webUI
+    include
+      resultTables with {
+        navigateTo resultTablesDetails
+      }
+    include
+      scenarioMixer.siteEnergyResult with {
+        multiple true
+      }
+    include scenarioMixer.choiceModel
+    include scenarioMixer.modeledMixtureSelection
+    include scenarioMixer.scenarioResults
 
     autoLayout LeftRight 80 55
   }
@@ -74,6 +151,7 @@ views {
       feature2Building.faces with {
         navigateTo facesDetails
       }
+    exclude feature2Building.zones -> baselineSimulation
     autoLayout LeftRight 80 55
   }
 
@@ -96,16 +174,30 @@ views {
     autoLayout LeftRight 80 55
   }
 
-  view precomputeBoundaryDetails of precomputeBoundary {
+  view simulationDetails of simulation {
+    title 'Simulation'
+    include *
+    include
+      simulation.precomputeBoundary with {
+        navigateTo precomputeBoundaryDetails
+      }
+    include
+      simulation.resultsAggregation with {
+        navigateTo resultsAggregationDetails
+      }
+    autoLayout LeftRight 80 55
+  }
+
+  view precomputeBoundaryDetails of simulation.precomputeBoundary {
     title 'Precompute Boundary Conditions'
     include feature2Building.zones
     include inputs.weather
     include *
-    include zone5R1C
+    include simulation.zone5R1C
     autoLayout LeftRight 80 55
   }
 
-  view resultsAggregationDetails of resultsAggregation {
+  view resultsAggregationDetails of simulation.resultsAggregation {
     title 'Results Aggregation'
     include *
     autoLayout LeftRight 80 55

@@ -2,7 +2,7 @@
   _type: 'element',
   tags: null,
   links: null,
-  viewOf: 'precomputeBoundary',
+  viewOf: 'simulation.precomputeBoundary',
   _stage: 'layouted',
   sourcePath: 'views/simulation-data-flow.c4',
   description: null,
@@ -13,12 +13,12 @@
     nodeSep: 55,
     rankSep: 80,
   },
-  hash: 'M7VxZhB98ORHjTW20ozC8Re6udgUj2nWHREGEqggiMo',
+  hash: 'ojabLZT4flKeIbrULBaoy7pC3dLYg089yvA0R85-JGw',
   bounds: {
     x: 0,
     y: 0,
     width: 2182,
-    height: 488,
+    height: 452,
   },
   nodes: [
     {
@@ -30,7 +30,7 @@
       ],
       inEdges: [],
       outEdges: [
-        '1k4prpk',
+        '12ha75h',
       ],
       title: 'Feature2Building (F2B)',
       modelRef: 'feature2Building',
@@ -70,14 +70,15 @@
       ],
       inEdges: [],
       outEdges: [
-        '1rwqsjs',
-        'hjso0v',
-        '3a00i',
+        'crgp4l',
+        '1nymy82',
+        '10euzyn',
       ],
       title: 'Inputs',
       modelRef: 'inputs',
       shape: 'person',
       color: 'amber',
+      icon: 'gcp:user-preferences',
       style: {
         opacity: 15,
         size: 'sm',
@@ -86,6 +87,7 @@
         txt: 'External file and weather inputs',
       },
       tags: [],
+      technology: 'User Preferences',
       kind: 'system',
       depth: 1,
       navigateTo: 'inputsDetails',
@@ -107,7 +109,7 @@
       children: [],
       inEdges: [],
       outEdges: [
-        '1k4prpk',
+        '12ha75h',
       ],
       title: 'Zones',
       modelRef: 'feature2Building.zones',
@@ -142,9 +144,9 @@
       children: [],
       inEdges: [],
       outEdges: [
-        '1rwqsjs',
-        'hjso0v',
-        '3a00i',
+        'crgp4l',
+        '1nymy82',
+        '10euzyn',
       ],
       title: 'Weather Input',
       modelRef: 'inputs.weather',
@@ -171,24 +173,24 @@
       },
     },
     {
-      id: 'precomputeBoundary',
+      id: 'simulation.precomputeBoundary',
       parent: null,
       level: 0,
       children: [
-        'precomputeBoundary.localWeather',
-        'precomputeBoundary.faceRadiation',
-        'precomputeBoundary.boundaryConditions',
+        'simulation.precomputeBoundary.localWeather',
+        'simulation.precomputeBoundary.faceRadiation',
+        'simulation.precomputeBoundary.boundaryConditions',
       ],
       inEdges: [
-        '1k4prpk',
-        '1rwqsjs',
-        'hjso0v',
+        '12ha75h',
+        'crgp4l',
+        '1nymy82',
       ],
       outEdges: [
-        't5bs2l',
+        '14lt0hp',
       ],
       title: 'Precompute Boundary Conditions',
-      modelRef: 'precomputeBoundary',
+      modelRef: 'simulation.precomputeBoundary',
       shape: 'rectangle',
       color: 'processing',
       icon: 'gcp:dataflow',
@@ -215,19 +217,19 @@
       },
     },
     {
-      id: 'precomputeBoundary.localWeather',
-      parent: 'precomputeBoundary',
+      id: 'simulation.precomputeBoundary.localWeather',
+      parent: 'simulation.precomputeBoundary',
       level: 1,
       children: [],
       inEdges: [
-        '1k4prpk',
-        '1rwqsjs',
+        '12ha75h',
+        'crgp4l',
       ],
       outEdges: [
-        'g6t13x',
+        '1hchfkt',
       ],
       title: 'Local Weather',
-      modelRef: 'precomputeBoundary.localWeather',
+      modelRef: 'simulation.precomputeBoundary.localWeather',
       shape: 'rectangle',
       color: 'processing',
       style: {
@@ -251,19 +253,19 @@
       },
     },
     {
-      id: 'precomputeBoundary.faceRadiation',
-      parent: 'precomputeBoundary',
+      id: 'simulation.precomputeBoundary.faceRadiation',
+      parent: 'simulation.precomputeBoundary',
       level: 1,
       children: [],
       inEdges: [
-        'hjso0v',
-        'g6t13x',
+        '1nymy82',
+        '1hchfkt',
       ],
       outEdges: [
-        '1amvlw0',
+        '10dpya8',
       ],
       title: 'Face Radiation',
-      modelRef: 'precomputeBoundary.faceRadiation',
+      modelRef: 'simulation.precomputeBoundary.faceRadiation',
       shape: 'rectangle',
       color: 'processing',
       style: {
@@ -287,18 +289,18 @@
       },
     },
     {
-      id: 'precomputeBoundary.boundaryConditions',
-      parent: 'precomputeBoundary',
+      id: 'simulation.precomputeBoundary.boundaryConditions',
+      parent: 'simulation.precomputeBoundary',
       level: 1,
       children: [],
       inEdges: [
-        '1amvlw0',
+        '10dpya8',
       ],
       outEdges: [
-        't5bs2l',
+        '14lt0hp',
       ],
       title: 'Boundary Conditions',
-      modelRef: 'precomputeBoundary.boundaryConditions',
+      modelRef: 'simulation.precomputeBoundary.boundaryConditions',
       shape: 'rectangle',
       color: 'processing',
       style: {
@@ -322,17 +324,17 @@
       },
     },
     {
-      id: 'zone5R1C',
+      id: 'simulation.zone5R1C',
       parent: null,
       level: 0,
       children: [],
       inEdges: [
-        't5bs2l',
-        '3a00i',
+        '14lt0hp',
+        '10euzyn',
       ],
       outEdges: [],
       title: 'Zone5R1C Simulation',
-      modelRef: 'zone5R1C',
+      modelRef: 'simulation.zone5R1C',
       shape: 'rectangle',
       color: 'processing',
       icon: 'gcp:compute-engine',
@@ -347,7 +349,7 @@
       technology: 'Compute Engine',
       kind: 'stage',
       x: 1875,
-      y: 352,
+      y: 308,
       width: 306,
       height: 135,
       labelBBox: {
@@ -360,9 +362,9 @@
   ],
   edges: [
     {
-      id: '1k4prpk',
+      id: '12ha75h',
       source: 'feature2Building.zones',
-      target: 'precomputeBoundary.localWeather',
+      target: 'simulation.precomputeBoundary.localWeather',
       label: 'zone geometry + location',
       points: [
         [
@@ -390,16 +392,16 @@
       },
       parent: null,
       relations: [
-        'of4gto',
+        'ssl67r',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
     },
     {
-      id: '1rwqsjs',
+      id: 'crgp4l',
       source: 'inputs.weather',
-      target: 'precomputeBoundary.localWeather',
+      target: 'simulation.precomputeBoundary.localWeather',
       label: 'weather input',
       points: [
         [
@@ -451,16 +453,16 @@
       },
       parent: null,
       relations: [
-        '6yeylq',
+        '6jpqgv',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
     },
     {
-      id: 'hjso0v',
+      id: '1nymy82',
       source: 'inputs.weather',
-      target: 'precomputeBoundary.faceRadiation',
+      target: 'simulation.precomputeBoundary.faceRadiation',
       label: 'weather input',
       points: [
         [
@@ -512,16 +514,16 @@
       },
       parent: null,
       relations: [
-        '1bk85x2',
+        'anicq1',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
     },
     {
-      id: 'g6t13x',
-      source: 'precomputeBoundary.localWeather',
-      target: 'precomputeBoundary.faceRadiation',
+      id: '1hchfkt',
+      source: 'simulation.precomputeBoundary.localWeather',
+      target: 'simulation.precomputeBoundary.faceRadiation',
       label: 'local weather',
       points: [
         [
@@ -547,18 +549,18 @@
         width: 86,
         height: 18,
       },
-      parent: 'precomputeBoundary',
+      parent: 'simulation.precomputeBoundary',
       relations: [
-        'p7zg1z',
+        '1m41lmy',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
     },
     {
-      id: '1amvlw0',
-      source: 'precomputeBoundary.faceRadiation',
-      target: 'precomputeBoundary.boundaryConditions',
+      id: '10dpya8',
+      source: 'simulation.precomputeBoundary.faceRadiation',
+      target: 'simulation.precomputeBoundary.boundaryConditions',
       label: 'surface radiation',
       points: [
         [
@@ -584,18 +586,18 @@
         width: 108,
         height: 18,
       },
-      parent: 'precomputeBoundary',
+      parent: 'simulation.precomputeBoundary',
       relations: [
-        'qozz59',
+        '1krokf4',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
     },
     {
-      id: 't5bs2l',
-      source: 'precomputeBoundary.boundaryConditions',
-      target: 'zone5R1C',
+      id: '14lt0hp',
+      source: 'simulation.precomputeBoundary.boundaryConditions',
+      target: 'simulation.zone5R1C',
       label: 'boundary conditions',
       points: [
         [
@@ -604,111 +606,87 @@
         ],
         [
           1509,
-          271,
+          257,
         ],
         [
           1509,
-          339,
+          309,
         ],
         [
           1509,
-          406,
+          362,
         ],
         [
           1509,
-          414,
+          370,
         ],
         [
           1515,
-          420,
+          376,
         ],
         [
           1523,
-          420,
+          376,
         ],
         [
           1637,
-          420,
+          376,
         ],
         [
           1750,
-          420,
+          376,
         ],
         [
           1864,
-          420,
+          376,
         ],
       ],
       labelBBox: {
         x: 1622,
-        y: 398,
+        y: 354,
         width: 129,
         height: 18,
       },
       parent: null,
       relations: [
-        'ssw3bu',
+        '2cg7a0',
       ],
       color: 'gray',
       line: 'dashed',
       head: 'normal',
     },
     {
-      id: '3a00i',
+      id: '10euzyn',
       source: 'inputs.weather',
-      target: 'zone5R1C',
+      target: 'simulation.zone5R1C',
       label: 'weather input',
       points: [
         [
-          130,
-          412,
+          220,
+          362,
         ],
         [
-          130,
-          421,
+          768,
+          362,
         ],
         [
-          130,
-          429,
-        ],
-        [
-          130,
-          438,
-        ],
-        [
-          130,
-          446,
-        ],
-        [
-          136,
-          452,
-        ],
-        [
-          144,
-          452,
-        ],
-        [
-          717,
-          452,
-        ],
-        [
-          1291,
-          452,
+          1316,
+          362,
         ],
         [
           1864,
-          452,
+          362,
         ],
       ],
       labelBBox: {
-        x: 953,
-        y: 430,
+        x: 998,
+        y: 340,
         width: 88,
         height: 18,
       },
       parent: null,
       relations: [
-        'n000ca',
+        'argb2k',
       ],
       color: 'gray',
       line: 'dashed',

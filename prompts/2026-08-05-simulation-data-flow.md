@@ -41,9 +41,11 @@ Show these concepts and responsibilities:
 - A collapsed Precompute Boundary Conditions stage with Local Weather, Face Radiation,
   and Boundary Conditions substages in a scoped detail view.
 - The detailed boundary flow from Zones through all three substages into Zone5R1C.
+- A Simulation subgroup containing Precompute Boundary Conditions, Zone5R1C
+  Simulation, and Results Aggregation.
 - Weather as an external simulation input.
 - A collapsed Results Aggregation stage containing ZoneResult, BuildingResult, and
-  SiteEnergyResult inside the Simulation Processing group.
+  SiteEnergyResult inside the UBEM group.
 - A direct Energy Loads Archetype connection supplying External loads to SiteEnergyResult.
 - A collapsed Result Tables system containing their corresponding result tables.
 - A collapsed GIS Tables system containing GIS Properties and GIS Result tables.
@@ -131,11 +133,14 @@ the minimum necessary evidence here.
   The connection remains available through global relationship browsing and detail views.
 - Show Inputs as one collapsed card; clicking it opens a scoped view of Input GeoJSON and
   Weather Input.
-- Add a quiet, solid-border `Simulation Processing` group containing Preprocessing,
-  collapsed Feature2Building, Precompute Boundary Conditions, Zone5R1C Simulation, and
-  collapsed Results Aggregation. Use `autoLayout LeftRight` and their semantic relationships
-  to preserve this exact sequence after a manual-layout reset: Preprocessing,
-  Feature2Building, Precompute Boundary Conditions, Zone5R1C Simulation, Results Aggregation.
+- Add a quiet, solid-border `UBEM` group containing Preprocessing,
+  collapsed Feature2Building, and a nested `Simulation` group. Simulation
+  contains Precompute Boundary Conditions, Zone5R1C Simulation, and collapsed Results
+  Aggregation. Use `autoLayout LeftRight` and their semantic relationships to preserve this
+  exact sequence after a manual-layout reset: Preprocessing, Feature2Building, Precompute
+  Boundary Conditions, Zone5R1C Simulation, Results Aggregation.
+- Render UBEM as the lighter parent frame and Simulation as a
+  slightly stronger but still quiet nested frame.
 - Render Results Aggregation with the same processing-stage color as the other four stages;
   retain green for the nested result objects in its detail view.
 - Show Definition Tables, Result Tables, and GIS Tables as collapsed cards with native
@@ -164,7 +169,7 @@ the minimum necessary evidence here.
 
 - Every relationship numbered 1 through 17 above appears with the stated direction.
 - Preprocessing visibly owns all three preprocessing responsibilities.
-- Working Feature Collection and Baseline do not appear in the model or view.
+- Working Feature Collection and an element named Baseline do not appear in the model or view.
 - Input GeoJSON feeds Preprocessing directly.
 - Preprocessing emits Feature inside Feature2Building and does not point directly to
   Building.
@@ -196,9 +201,10 @@ the minimum necessary evidence here.
 - Inputs is collapsed in the main view and its detail view contains exactly Input GeoJSON
   and Weather Input.
 - DuckDB Local Storage does not appear.
-- Simulation Processing contains Preprocessing, collapsed Feature2Building, Precompute
-  Boundary Conditions, Zone5R1C Simulation, and collapsed Results Aggregation.
-- The five Simulation Processing stages share one processing color, one horizontal row,
+- UBEM contains Preprocessing, collapsed Feature2Building, Precompute
+  Boundary Conditions, Zone5R1C Simulation, and collapsed Results Aggregation. Simulation
+  Simulation groups the final three of those stages without changing their sequence.
+- The five UBEM stages share one processing color, one horizontal row,
   and the exact left-to-right sequence Preprocessing, Feature2Building, Precompute Boundary
   Conditions, Zone5R1C Simulation, Results Aggregation.
 - Feature, all three archetypes, Building, Zones, and Faces are nested within

@@ -59,6 +59,14 @@ specification {
     }
   }
 
+  element ui {
+    style {
+      shape browser
+      color processing
+      size small
+    }
+  }
+
   element system {
     style {
       shape rectangle
