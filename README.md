@@ -34,6 +34,33 @@ npx --yes likec4@1.59.2 start
 Then open <http://localhost:5173/view/simulationDataFlow>. Stop the server with `Ctrl+C`.
 The default listener is localhost only.
 
+## Live GitHub Pages deployment
+
+The complete interactive LikeC4 application is deployed to
+<https://chengxuan-li.github.io/likec4-testground/>. Diagram inspection, relationship views,
+and view navigation remain live in the browser; the deployment does not generate or publish
+PNG diagram exports.
+
+[`.github/workflows/deploy-likec4-pages.yml`](.github/workflows/deploy-likec4-pages.yml)
+format-checks and validates the workspace, builds the production app with hash-history
+routing, and deploys it after every push to `main`. It can also be started manually with
+**Actions > Deploy live LikeC4 to GitHub Pages > Run workflow**.
+
+Before the first deployment, set **Settings > Pages > Build and deployment > Source** to
+**GitHub Actions**.
+
+Reproduce the production build locally from the repository root:
+
+```powershell
+npx --yes likec4@1.59.2 format --check .\likec4
+npx --yes likec4@1.59.2 validate .\likec4
+npx --yes likec4@1.59.2 build .\likec4 --output .\dist --base /likec4-testground/ --use-hash-history --title "EnergyAtlas LikeC4 Testground"
+npx --yes likec4@1.59.2 preview .\likec4 --output .\dist --base /likec4-testground/
+```
+
+The build is served beneath `/likec4-testground/`; hash routes such as
+`#/view/scenarioSimulationView` avoid GitHub Pages rewrite requirements.
+
 ## Connector routing
 
 LikeC4's own layout draws relationships as curved diagonal splines. The router re-routes them

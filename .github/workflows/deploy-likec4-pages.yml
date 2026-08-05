@@ -1,0 +1,59 @@
+name: Deploy live LikeC4 to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Check LikeC4 formatting
+        run: npx --yes likec4@1.59.2 format --check ./likec4
+
+      - name: Validate LikeC4 workspace
+        run: npx --yes likec4@1.59.2 validate ./likec4
+
+      - name: Build interactive LikeC4 site
+        run: >-
+          npx --yes likec4@1.59.2 build ./likec4
+          --output ./dist
+          --base /likec4-testground/
+          --use-hash-history
+          --title "EnergyAtlas LikeC4 Testground"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

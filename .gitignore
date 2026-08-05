@@ -1,5 +1,6 @@
 # Dependencies. tools/orthogonal-router is the only installed tree in this repository.
 node_modules/
+/dist/
 
 # OS and editor noise
 .DS_Store
