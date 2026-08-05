@@ -13,14 +13,51 @@
     nodeSep: 55,
     rankSep: 80,
   },
-  hash: '7IxL8GzGPketYZn3zYRM7h8HZFzRaSBo0xlh45WU7Mo',
+  hash: '7mEz-IUNA4P_i0On4omplAOaT1XIIfEcLv-mlgdP57k',
   bounds: {
     x: 0,
     y: 0,
-    width: 1821,
-    height: 325,
+    width: 1984,
+    height: 487,
   },
   nodes: [
+    {
+      id: 'feature2Building',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [],
+      outEdges: [
+        '1qs4moy',
+      ],
+      title: 'Feature2Building (F2B)',
+      modelRef: 'feature2Building',
+      shape: 'rectangle',
+      color: 'processing',
+      icon: 'gcp:cloud-functions',
+      style: {
+        border: 'solid',
+        opacity: 12,
+        size: 'sm',
+      },
+      description: {
+        txt: 'Builds domain objects and archetype assignments from a preprocessed Feature',
+      },
+      tags: [],
+      technology: 'Cloud Functions',
+      kind: 'stage',
+      navigateTo: 'feature2BuildingDetails',
+      x: 797,
+      y: 0,
+      width: 296,
+      height: 135,
+      labelBBox: {
+        x: 34,
+        y: 24,
+        width: 246,
+        height: 85,
+      },
+    },
     {
       id: 'zone5R1C',
       parent: null,
@@ -46,7 +83,7 @@
       technology: 'Compute Engine',
       kind: 'stage',
       x: 0,
-      y: 57,
+      y: 219,
       width: 306,
       height: 135,
       labelBBox: {
@@ -66,6 +103,7 @@
         'resultsAggregation.siteEnergyResult',
       ],
       inEdges: [
+        '1qs4moy',
         '12ett66',
       ],
       outEdges: [
@@ -91,8 +129,8 @@
       kind: 'stage',
       depth: 1,
       x: 394,
-      y: 14,
-      width: 985,
+      y: 176,
+      width: 1149,
       height: 206,
       labelBBox: {
         x: 6,
@@ -127,7 +165,7 @@
       tags: [],
       kind: 'result',
       x: 434,
-      y: 75,
+      y: 237,
       width: 180,
       height: 100,
       labelBBox: {
@@ -162,8 +200,8 @@
       },
       tags: [],
       kind: 'result',
-      x: 797,
-      y: 75,
+      x: 855,
+      y: 237,
       width: 180,
       height: 100,
       labelBBox: {
@@ -179,6 +217,7 @@
       level: 1,
       children: [],
       inEdges: [
+        '1qs4moy',
         '9t55g5',
       ],
       outEdges: [
@@ -198,8 +237,8 @@
       },
       tags: [],
       kind: 'result',
-      x: 1159,
-      y: 75,
+      x: 1323,
+      y: 237,
       width: 180,
       height: 100,
       labelBBox: {
@@ -234,8 +273,8 @@
       tags: [],
       kind: 'system',
       navigateTo: 'resultTablesDetails',
-      x: 1581,
-      y: 190,
+      x: 1744,
+      y: 352,
       width: 240,
       height: 135,
       labelBBox: {
@@ -268,8 +307,8 @@
       tags: [],
       kind: 'system',
       navigateTo: 'gisTablesDetails',
-      x: 1581,
-      y: 0,
+      x: 1744,
+      y: 162,
       width: 240,
       height: 135,
       labelBBox: {
@@ -282,6 +321,67 @@
   ],
   edges: [
     {
+      id: '1qs4moy',
+      source: 'feature2Building',
+      target: 'resultsAggregation.siteEnergyResult',
+      label: 'supplies External loads',
+      points: [
+        [
+          1093,
+          68,
+        ],
+        [
+          1195,
+          68,
+        ],
+        [
+          1297,
+          68,
+        ],
+        [
+          1399,
+          68,
+        ],
+        [
+          1407,
+          68,
+        ],
+        [
+          1413,
+          74,
+        ],
+        [
+          1413,
+          82,
+        ],
+        [
+          1413,
+          130,
+        ],
+        [
+          1413,
+          178,
+        ],
+        [
+          1413,
+          226,
+        ],
+      ],
+      labelBBox: {
+        x: 1179,
+        y: 46,
+        width: 148,
+        height: 18,
+      },
+      parent: null,
+      relations: [
+        'wmuzct',
+      ],
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+    },
+    {
       id: '12ett66',
       source: 'zone5R1C',
       target: 'resultsAggregation.zoneResult',
@@ -289,30 +389,30 @@
       points: [
         [
           306,
-          125,
+          287,
         ],
         [
           345,
-          125,
+          287,
         ],
         [
           384,
-          125,
+          287,
         ],
         [
           423,
-          125,
+          287,
         ],
       ],
       labelBBox: {
         x: 346,
-        y: 103,
+        y: 265,
         width: 37,
         height: 18,
       },
       parent: null,
       relations: [
-        '76neav',
+        '1yq2hbg',
       ],
       color: 'gray',
       line: 'dashed',
@@ -326,24 +426,24 @@
       points: [
         [
           614,
-          125,
+          287,
         ],
         [
-          671,
-          125,
+          691,
+          287,
         ],
         [
-          729,
-          125,
+          767,
+          287,
         ],
         [
-          786,
-          125,
+          844,
+          287,
         ],
       ],
       labelBBox: {
-        x: 650,
-        y: 103,
+        x: 679,
+        y: 265,
         width: 101,
         height: 18,
       },
@@ -362,25 +462,25 @@
       label: 'aggregates into',
       points: [
         [
-          977,
-          125,
+          1035,
+          287,
         ],
         [
-          1034,
-          125,
+          1127,
+          287,
         ],
         [
-          1091,
-          125,
+          1220,
+          287,
         ],
         [
-          1148,
-          125,
+          1312,
+          287,
         ],
       ],
       labelBBox: {
-        x: 1012,
-        y: 103,
+        x: 1123,
+        y: 265,
         width: 101,
         height: 18,
       },
@@ -400,54 +500,54 @@
       points: [
         [
           524,
-          175,
+          337,
         ],
         [
           524,
-          198,
+          360,
         ],
         [
           524,
-          221,
+          383,
         ],
         [
           524,
-          244,
+          406,
         ],
         [
           524,
-          252,
+          414,
         ],
         [
           530,
-          258,
+          420,
         ],
         [
           538,
-          258,
+          420,
         ],
         [
-          882,
-          258,
+          936,
+          420,
         ],
         [
-          1226,
-          258,
+          1335,
+          420,
         ],
         [
-          1570,
-          258,
+          1733,
+          420,
         ],
       ],
       labelBBox: {
-        x: 1021,
-        y: 236,
+        x: 1103,
+        y: 398,
         width: 52,
         height: 18,
       },
       parent: null,
       relations: [
-        'l9qh0',
+        'j9yp3',
       ],
       color: 'gray',
       line: 'dashed',
@@ -460,55 +560,55 @@
       label: 'persists',
       points: [
         [
-          887,
-          175,
+          945,
+          337,
         ],
         [
-          887,
-          193,
+          945,
+          355,
         ],
         [
-          887,
-          210,
+          945,
+          372,
         ],
         [
-          887,
-          228,
+          945,
+          390,
         ],
         [
-          887,
-          236,
+          945,
+          398,
         ],
         [
-          893,
-          242,
+          951,
+          404,
         ],
         [
-          901,
-          242,
+          959,
+          404,
         ],
         [
-          1124,
-          242,
+          1217,
+          404,
         ],
         [
-          1347,
-          242,
+          1475,
+          404,
         ],
         [
-          1570,
-          242,
+          1733,
+          404,
         ],
       ],
       labelBBox: {
-        x: 1203,
-        y: 220,
+        x: 1313,
+        y: 382,
         width: 52,
         height: 18,
       },
       parent: null,
       relations: [
-        '6eze3p',
+        'i4fr5s',
       ],
       color: 'gray',
       line: 'dashed',
@@ -521,55 +621,55 @@
       label: 'persists',
       points: [
         [
-          1339,
-          157,
+          1503,
+          319,
         ],
         [
-          1456,
-          157,
+          1620,
+          319,
         ],
         [
-          1573,
-          157,
+          1736,
+          319,
         ],
         [
-          1690,
-          157,
+          1853,
+          319,
         ],
         [
-          1696,
-          157,
+          1859,
+          319,
         ],
         [
-          1701,
-          162,
+          1864,
+          324,
         ],
         [
-          1701,
-          168,
+          1864,
+          330,
         ],
         [
-          1701,
-          172,
+          1864,
+          334,
         ],
         [
-          1701,
-          175,
+          1864,
+          337,
         ],
         [
-          1701,
-          179,
+          1864,
+          341,
         ],
       ],
       labelBBox: {
-        x: 1494,
-        y: 135,
+        x: 1658,
+        y: 297,
         width: 52,
         height: 18,
       },
       parent: null,
       relations: [
-        'gv7jra',
+        'vyvdy9',
       ],
       color: 'gray',
       line: 'dashed',
@@ -582,31 +682,31 @@
       label: 'selective GIS projection',
       points: [
         [
-          1339,
-          105,
+          1503,
+          267,
         ],
         [
-          1416,
-          105,
+          1580,
+          267,
         ],
         [
-          1493,
-          105,
+          1656,
+          267,
         ],
         [
-          1570,
-          105,
+          1733,
+          267,
         ],
       ],
       labelBBox: {
-        x: 1379,
-        y: 83,
+        x: 1543,
+        y: 245,
         width: 151,
         height: 18,
       },
       parent: null,
       relations: [
-        '1a4vm07',
+        '1bw5yte',
       ],
       color: 'gray',
       line: 'dashed',

@@ -13,7 +13,7 @@
     nodeSep: 55,
     rankSep: 80,
   },
-  hash: 'ktdkc3aWBA9gknw8nls55O0bUi6KHbFIQrogInHCumM',
+  hash: 'pQD6_5vfuSB0YVUPtA7_nIVpYTkQPIp_iJwn6mU2esE',
   bounds: {
     x: 0,
     y: 0,
@@ -40,20 +40,21 @@
         size: 'sm',
       },
       description: {
-        txt: 'Precomputes boundary conditions required by Zone5R1C',
+        txt: 'Derives local weather, face radiation, and boundary conditions required by Zone5R1C',
       },
       tags: [],
       technology: 'Dataflow',
       kind: 'stage',
+      navigateTo: 'precomputeBoundaryDetails',
       x: 0,
       y: 37,
       width: 339,
       height: 135,
       labelBBox: {
         x: 34,
-        y: 31,
+        y: 24,
         width: 289,
-        height: 71,
+        height: 85,
       },
     },
     {
@@ -268,7 +269,7 @@
       },
       parent: null,
       relations: [
-        'gbki0b',
+        '3zwnpf',
       ],
       color: 'gray',
       line: 'dashed',
@@ -353,7 +354,7 @@
       },
       parent: null,
       relations: [
-        'l9qh0',
+        'j9yp3',
       ],
       color: 'gray',
       line: 'dashed',
@@ -390,7 +391,7 @@
       },
       parent: null,
       relations: [
-        '6eze3p',
+        'i4fr5s',
       ],
       color: 'gray',
       line: 'dashed',
@@ -451,7 +452,7 @@
       },
       parent: null,
       relations: [
-        'gv7jra',
+        'vyvdy9',
       ],
       color: 'gray',
       line: 'dashed',

@@ -34,10 +34,13 @@ Show these concepts and responsibilities:
   systems for Zones, and Energy Loads Archetype schedules for Zones.
 - A collapsed Definition Tables system containing Building and Zone definition tables.
   Zone definitions include energy-load time series.
-- Boundary-condition precomputation and Zone5R1C simulation.
+- A collapsed Precompute Boundary Conditions stage with Local Weather, Face Radiation,
+  and Boundary Conditions substages in a scoped detail view.
+- The detailed boundary flow from Zones through all three substages into Zone5R1C.
 - Weather as an external simulation input.
 - A collapsed Results Aggregation stage containing ZoneResult, BuildingResult, and
   SiteEnergyResult inside the Simulation Processing group.
+- A direct Energy Loads Archetype connection supplying External loads to SiteEnergyResult.
 - A collapsed Result Tables system containing their corresponding result tables.
 - A collapsed GIS Tables system containing GIS Properties and GIS Result tables.
 - One Results GeoJSON output exported by both GIS tables.
@@ -68,16 +71,23 @@ Use this as the semantic source of truth:
    Zones. Energy Loads Archetype supplies schedules to Zones.
 7. Building definitions are written to the building definition table. Zone definitions,
    including energy-load time series, are written to the zone definition table.
-8. Zones feed PrecomputeBoundaryCondition, whose prepared conditions feed Zone5R1C.
-9. Weather independently enters Zone5R1C as an external input.
-10. Zone5R1C simulation emits ZoneResult directly and has no other result-stage output.
-11. ZoneResult persists to the zone result table.
-12. PrecomputeBoundaryCondition writes directly to the zone result table; it does not emit
+8. Zones feed Local Weather inside Precompute Boundary Conditions with zone geometry and
+   location context.
+9. Weather independently feeds both Local Weather and Face Radiation. Its existing direct
+   connection to Zone5R1C remains as an external simulation input.
+10. Local Weather feeds Face Radiation, Face Radiation feeds Boundary Conditions, and
+    Boundary Conditions feeds Zone5R1C. The former direct Zones-to-Precompute and
+    Precompute-to-Zone5R1C parent-level relationships do not remain.
+11. Zone5R1C simulation emits ZoneResult directly and has no other result-stage output.
+12. ZoneResult persists to the zone result table.
+13. PrecomputeBoundaryCondition writes directly to the zone result table; it does not emit
     a ZoneResult object.
-13. ZoneResult aggregates into BuildingResult, which aggregates into SiteEnergyResult.
+14. ZoneResult aggregates into BuildingResult, which aggregates into SiteEnergyResult.
     Each result object persists to its corresponding result table.
-14. SiteEnergyResult is selectively projected into the GIS result table.
-15. Both the GIS properties table and GIS result table export the same Results GeoJSON
+15. Energy Loads Archetype directly supplies External loads to SiteEnergyResult; this
+    connection does not pass through ZoneResult.
+16. SiteEnergyResult is selectively projected into the GIS result table.
+17. Both the GIS properties table and GIS result table export the same Results GeoJSON
     output.
 
 The view may show result objects separately from their tables when that distinction makes
@@ -109,6 +119,9 @@ the minimum necessary evidence here.
 - Use the directed processing relationships, rather than a same-rank constraint, to assign
   the five stages to successive left-to-right ranks. Exact absolute coordinates are not
   required and must not be claimed.
+- Keep the Energy Loads Archetype-to-SiteEnergyResult relationship in the model but exclude
+  its collapsed projection from the main view so it does not disturb the five-stage row.
+  The connection remains available through global relationship browsing and detail views.
 - Show Inputs as one collapsed card; clicking it opens a scoped view of Input GeoJSON and
   Weather Input.
 - Add a quiet, solid-border `Simulation Processing` group containing Preprocessing,
@@ -125,6 +138,9 @@ the minimum necessary evidence here.
 - Show Feature2Building as one collapsed stage with a scoped detail view containing
   Feature, Construction Archetype, Systems Archetype, Energy Loads Archetype, Building,
   `Zones`, and `Faces`. Render both Zones and Faces with `multiple true`.
+- Show Precompute Boundary Conditions as one collapsed stage in the main view. Its scoped
+  detail view includes external Zones and Weather Input, internal Local Weather, Face
+  Radiation, and Boundary Conditions substages, and external Zone5R1C Simulation.
 - Render Definition Tables, Result Tables, and GIS Tables with database/storage shapes.
 - Render Inputs with LikeC4's person shape as the requested customer-style silhouette.
 - Add restrained bundled GCP icons to selected processing, aggregation, and output cards
@@ -134,7 +150,7 @@ the minimum necessary evidence here.
 
 ## Acceptance criteria
 
-- Every relationship numbered 1 through 15 above appears with the stated direction.
+- Every relationship numbered 1 through 17 above appears with the stated direction.
 - Preprocessing visibly owns all three preprocessing responsibilities.
 - Working Feature Collection and Baseline do not appear in the model or view.
 - Input GeoJSON feeds Preprocessing directly.
@@ -147,7 +163,16 @@ the minimum necessary evidence here.
   and WWR to Faces.
 - Systems Archetype supplies conditioning systems to Zones, and Energy Loads Archetype
   supplies schedules to Zones.
-- Weather enters Zone5R1C, not preprocessing.
+- Energy Loads Archetype directly supplies External loads to SiteEnergyResult without
+  passing through ZoneResult.
+- The External Loads relationship is excluded only from the main `simulationDataFlow`
+  projection and remains available in the model and relationship/detail views.
+- Zones connect to Local Weather, which connects to Face Radiation, which connects to
+  Boundary Conditions, which connects to Zone5R1C.
+- Weather Input connects to Local Weather and Face Radiation and retains its direct
+  Zone5R1C connection; Weather does not enter Preprocessing.
+- The obsolete Zones-to-Precompute Boundary Conditions and Precompute Boundary
+  Conditions-to-Zone5R1C parent-level relationships are absent.
 - Zone5R1C has one result-stage output: ZoneResult.
 - PrecomputeBoundaryCondition writes directly to Zone Result Table and has no relationship
   to the ZoneResult object.
@@ -160,13 +185,13 @@ the minimum necessary evidence here.
 - DuckDB Local Storage does not appear.
 - Simulation Processing contains Preprocessing, collapsed Feature2Building, Precompute
   Boundary Conditions, Zone5R1C Simulation, and collapsed Results Aggregation.
-- The five Simulation Processing stages share one processing color and appear in the exact
-  left-to-right sequence Preprocessing, Feature2Building, Precompute Boundary Conditions,
-  Zone5R1C Simulation, Results Aggregation.
+- The five Simulation Processing stages share one processing color, one horizontal row,
+  and the exact left-to-right sequence Preprocessing, Feature2Building, Precompute Boundary
+  Conditions, Zone5R1C Simulation, Results Aggregation.
 - Feature, all three archetypes, Building, Zones, and Faces are nested within
   Feature2Building; Zones and Faces are plural and rendered as multiple instances.
-- Feature2Building and Results Aggregation are collapsed in the main view and each
-  navigates to a named scoped detail view.
+- Feature2Building, Precompute Boundary Conditions, and Results Aggregation are collapsed
+  in the main view and each navigates to a named scoped detail view.
 - Definition Tables, Result Tables, and GIS Tables are collapsed storage-shaped cards;
   Inputs is a collapsed person-shaped card. Each navigates to a named scoped detail view.
 - Properties GeoJSON does not appear. Both GIS tables export Results GeoJSON.

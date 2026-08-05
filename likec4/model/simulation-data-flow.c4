@@ -90,8 +90,23 @@ model {
   }
 
   precomputeBoundary = stage 'Precompute Boundary Conditions' {
-    description 'Precomputes boundary conditions required by Zone5R1C'
+    description 'Derives local weather, face radiation, and boundary conditions required by Zone5R1C'
     icon gcp:dataflow
+
+    localWeather = stage 'Local Weather' {
+      description 'Resolves zone-local weather conditions from site weather and zone context'
+    }
+
+    faceRadiation = stage 'Face Radiation' {
+      description 'Computes radiation conditions for zone faces'
+    }
+
+    boundaryConditions = stage 'Boundary Conditions' {
+      description 'Assembles the boundary conditions consumed by Zone5R1C'
+    }
+
+    localWeather -> faceRadiation 'local weather'
+    faceRadiation -> boundaryConditions 'surface radiation'
   }
 
   zone5R1C = stage 'Zone5R1C Simulation' {
@@ -164,11 +179,14 @@ model {
 
   feature2Building.building -> definitionTables.buildingDefinitionTable 'writes definition'
   feature2Building.zones -> definitionTables.zoneDefinitionTable 'writes definition + load series'
-  feature2Building.zones -> precomputeBoundary 'prepares'
+  feature2Building.zones -> precomputeBoundary.localWeather 'zone geometry + location'
 
-  precomputeBoundary -> zone5R1C 'boundary conditions'
+  precomputeBoundary.boundaryConditions -> zone5R1C 'boundary conditions'
+  inputs.weather -> precomputeBoundary.localWeather 'weather input'
+  inputs.weather -> precomputeBoundary.faceRadiation 'weather input'
   inputs.weather -> zone5R1C 'weather input'
   zone5R1C -> resultsAggregation.zoneResult 'emits'
+  feature2Building.energyLoadsArchetype -> resultsAggregation.siteEnergyResult 'supplies External loads'
 
   precomputeBoundary -> resultTables.zoneResultTable 'writes boundary results'
   resultsAggregation.zoneResult -> resultTables.zoneResultTable 'persists'

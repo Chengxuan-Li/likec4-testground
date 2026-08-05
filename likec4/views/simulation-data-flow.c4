@@ -13,7 +13,10 @@ views {
         feature2Building with {
           navigateTo feature2BuildingDetails
         }
-      include precomputeBoundary
+      include
+        precomputeBoundary with {
+          navigateTo precomputeBoundaryDetails
+        }
       include zone5R1C
       include
         resultsAggregation with {
@@ -39,6 +42,8 @@ views {
       }
     include resultsGeojson
 
+    exclude feature2Building.energyLoadsArchetype -> resultsAggregation.siteEnergyResult
+
     rank same {
       definitionTables, resultTables, gisTables
     }
@@ -61,6 +66,15 @@ views {
   view feature2BuildingDetails of feature2Building {
     title 'Feature2Building (F2B)'
     include *
+    autoLayout LeftRight 80 55
+  }
+
+  view precomputeBoundaryDetails of precomputeBoundary {
+    title 'Precompute Boundary Conditions'
+    include feature2Building.zones
+    include inputs.weather
+    include *
+    include zone5R1C
     autoLayout LeftRight 80 55
   }
 

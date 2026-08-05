@@ -13,12 +13,12 @@
     nodeSep: 55,
     rankSep: 80,
   },
-  hash: 'LKlxpe4Ra_VY77ZCv0kGVIGoSnoLv2Sp81orGfIOIpE',
+  hash: '5QoYhvd-pRaDATG9VdtTVEhvZiLy6VD8LRcs-IJQMlk',
   bounds: {
     x: 0,
     y: 0,
-    width: 713,
-    height: 372,
+    width: 745,
+    height: 549,
   },
   nodes: [
     {
@@ -32,6 +32,7 @@
       inEdges: [],
       outEdges: [
         '1a9uwmm',
+        '14dk5jn',
         '3a00i',
       ],
       title: 'Inputs',
@@ -99,6 +100,7 @@
       children: [],
       inEdges: [],
       outEdges: [
+        '14dk5jn',
         '3a00i',
       ],
       title: 'Weather Input',
@@ -149,7 +151,7 @@
       tags: [],
       technology: 'Dataflow',
       kind: 'stage',
-      x: 431,
+      x: 447,
       y: 33,
       width: 258,
       height: 135,
@@ -157,6 +159,42 @@
         x: 34,
         y: 24,
         width: 208,
+        height: 85,
+      },
+    },
+    {
+      id: 'precomputeBoundary',
+      parent: null,
+      level: 0,
+      children: [],
+      inEdges: [
+        '14dk5jn',
+      ],
+      outEdges: [],
+      title: 'Precompute Boundary Conditions',
+      modelRef: 'precomputeBoundary',
+      shape: 'rectangle',
+      color: 'processing',
+      icon: 'gcp:dataflow',
+      style: {
+        opacity: 15,
+        size: 'sm',
+      },
+      description: {
+        txt: 'Derives local weather, face radiation, and boundary conditions required by Zone5R1C',
+      },
+      tags: [],
+      technology: 'Dataflow',
+      kind: 'stage',
+      navigateTo: 'precomputeBoundaryDetails',
+      x: 406,
+      y: 223,
+      width: 339,
+      height: 135,
+      labelBBox: {
+        x: 34,
+        y: 24,
+        width: 289,
         height: 85,
       },
     },
@@ -184,8 +222,8 @@
       tags: [],
       technology: 'Compute Engine',
       kind: 'stage',
-      x: 407,
-      y: 223,
+      x: 423,
+      y: 413,
       width: 306,
       height: 135,
       labelBBox: {
@@ -208,20 +246,20 @@
           119,
         ],
         [
-          292,
+          297,
           119,
         ],
         [
-          356,
+          367,
           119,
         ],
         [
-          420,
+          436,
           119,
         ],
       ],
       labelBBox: {
-        x: 285,
+        x: 293,
         y: 97,
         width: 79,
         height: 18,
@@ -235,9 +273,9 @@
       head: 'normal',
     },
     {
-      id: '3a00i',
+      id: '14dk5jn',
       source: 'inputs.weather',
-      target: 'zone5R1C',
+      target: 'precomputeBoundary',
       label: 'weather input',
       points: [
         [
@@ -249,11 +287,11 @@
           274,
         ],
         [
-          340,
+          339,
           274,
         ],
         [
-          396,
+          395,
           274,
         ],
       ],
@@ -265,7 +303,69 @@
       },
       parent: null,
       relations: [
-        'sx67o',
+        '6yeylq',
+        '1bk85x2',
+      ],
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+    },
+    {
+      id: '3a00i',
+      source: 'inputs.weather',
+      target: 'zone5R1C',
+      label: 'weather input',
+      points: [
+        [
+          138,
+          324,
+        ],
+        [
+          138,
+          372,
+        ],
+        [
+          138,
+          419,
+        ],
+        [
+          138,
+          467,
+        ],
+        [
+          138,
+          475,
+        ],
+        [
+          144,
+          481,
+        ],
+        [
+          152,
+          481,
+        ],
+        [
+          239,
+          481,
+        ],
+        [
+          325,
+          481,
+        ],
+        [
+          412,
+          481,
+        ],
+      ],
+      labelBBox: {
+        x: 231,
+        y: 459,
+        width: 88,
+        height: 18,
+      },
+      parent: null,
+      relations: [
+        'n000ca',
       ],
       color: 'gray',
       line: 'dashed',

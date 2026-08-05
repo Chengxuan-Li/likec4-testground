@@ -7,11 +7,11 @@
   autoLayout: {
     direction: 'TB',
   },
-  hash: 'SxdqSiPWyYNIp2-FBDpXSQn2LxZb077FJuYhgZ_-KfM',
+  hash: 'NlfCvDE9xqHIXuggAjNbGFiW1_xYcHuTwZj3R4rvJb0',
   bounds: {
     x: 0,
     y: 0,
-    width: 1147,
+    width: 1357,
     height: 2045,
   },
   nodes: [
@@ -23,6 +23,7 @@
       inEdges: [],
       outEdges: [
         'tre3xf',
+        'e42mit',
         '1xbu6pw',
       ],
       title: 'Inputs',
@@ -39,7 +40,7 @@
       tags: [],
       kind: 'system',
       navigateTo: 'inputsDetails',
-      x: 0,
+      x: 731,
       y: 0,
       width: 240,
       height: 135,
@@ -77,7 +78,7 @@
       tags: [],
       technology: 'Dataflow',
       kind: 'stage',
-      x: 201,
+      x: 354,
       y: 277,
       width: 258,
       height: 135,
@@ -99,6 +100,7 @@
       outEdges: [
         '19p0ooy',
         '1mttvcg',
+        '1l5rgmk',
       ],
       title: 'Feature2Building (F2B)',
       modelRef: 'feature2Building',
@@ -117,7 +119,7 @@
       technology: 'Cloud Functions',
       kind: 'stage',
       navigateTo: 'feature2BuildingDetails',
-      x: 457,
+      x: 335,
       y: 555,
       width: 296,
       height: 135,
@@ -151,7 +153,7 @@
       tags: [],
       kind: 'system',
       navigateTo: 'definitionTablesDetails',
-      x: 457,
+      x: 445,
       y: 833,
       width: 240,
       height: 135,
@@ -168,6 +170,7 @@
       level: 0,
       children: [],
       inEdges: [
+        'e42mit',
         '1mttvcg',
       ],
       outEdges: [
@@ -184,20 +187,21 @@
         size: 'sm',
       },
       description: {
-        txt: 'Precomputes boundary conditions required by Zone5R1C',
+        txt: 'Derives local weather, face radiation, and boundary conditions required by Zone5R1C',
       },
       tags: [],
       technology: 'Dataflow',
       kind: 'stage',
-      x: 807,
+      navigateTo: 'precomputeBoundaryDetails',
+      x: 1017,
       y: 833,
       width: 339,
       height: 135,
       labelBBox: {
         x: 34,
-        y: 31,
+        y: 24,
         width: 290,
-        height: 71,
+        height: 85,
       },
     },
     {
@@ -227,7 +231,7 @@
       tags: [],
       technology: 'Compute Engine',
       kind: 'stage',
-      x: 481,
+      x: 698,
       y: 1111,
       width: 306,
       height: 135,
@@ -244,6 +248,7 @@
       level: 0,
       children: [],
       inEdges: [
+        '1l5rgmk',
         '1kjtth3',
       ],
       outEdges: [
@@ -266,7 +271,7 @@
       technology: 'Big Query',
       kind: 'stage',
       navigateTo: 'resultsAggregationDetails',
-      x: 504,
+      x: 413,
       y: 1389,
       width: 260,
       height: 135,
@@ -301,7 +306,7 @@
       tags: [],
       kind: 'system',
       navigateTo: 'resultTablesDetails',
-      x: 725,
+      x: 619,
       y: 1666,
       width: 240,
       height: 135,
@@ -338,7 +343,7 @@
       tags: [],
       kind: 'system',
       navigateTo: 'gisTablesDetails',
-      x: 331,
+      x: 225,
       y: 1666,
       width: 240,
       height: 135,
@@ -373,7 +378,7 @@
       tags: [],
       technology: 'Cloud Storage',
       kind: 'output',
-      x: 350,
+      x: 244,
       y: 1945,
       width: 202,
       height: 100,
@@ -393,25 +398,49 @@
       label: 'feature data',
       points: [
         [
-          221,
+          851,
           135,
         ],
         [
-          221,
-          179,
+          851,
+          200,
         ],
         [
-          221,
-          222,
-        ],
-        [
-          221,
+          851,
           266,
+        ],
+        [
+          851,
+          331,
+        ],
+        [
+          851,
+          339,
+        ],
+        [
+          845,
+          345,
+        ],
+        [
+          837,
+          345,
+        ],
+        [
+          766,
+          345,
+        ],
+        [
+          694,
+          345,
+        ],
+        [
+          623,
+          345,
         ],
       ],
       labelBBox: {
-        x: 140,
-        y: 192,
+        x: 698,
+        y: 323,
         width: 79,
         height: 18,
       },
@@ -424,61 +453,99 @@
       head: 'normal',
     },
     {
+      id: 'e42mit',
+      source: 'inputs',
+      target: 'precomputeBoundary',
+      label: 'weather input',
+      points: [
+        [
+          867,
+          135,
+        ],
+        [
+          867,
+          386,
+        ],
+        [
+          867,
+          636,
+        ],
+        [
+          867,
+          887,
+        ],
+        [
+          867,
+          895,
+        ],
+        [
+          873,
+          901,
+        ],
+        [
+          881,
+          901,
+        ],
+        [
+          923,
+          901,
+        ],
+        [
+          964,
+          901,
+        ],
+        [
+          1006,
+          901,
+        ],
+      ],
+      labelBBox: {
+        x: 777,
+        y: 509,
+        width: 88,
+        height: 18,
+      },
+      parent: null,
+      relations: [
+        '6yeylq',
+        '1bk85x2',
+      ],
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+    },
+    {
       id: '1xbu6pw',
       source: 'inputs',
       target: 'zone5R1C',
       label: 'weather input',
       points: [
         [
-          120,
+          835,
           135,
         ],
         [
-          120,
-          478,
+          835,
+          457,
         ],
         [
-          120,
-          822,
+          835,
+          778,
         ],
         [
-          120,
-          1165,
-        ],
-        [
-          120,
-          1173,
-        ],
-        [
-          126,
-          1179,
-        ],
-        [
-          134,
-          1179,
-        ],
-        [
-          246,
-          1179,
-        ],
-        [
-          358,
-          1179,
-        ],
-        [
-          470,
-          1179,
+          835,
+          1100,
         ],
       ],
       labelBBox: {
-        x: 30,
-        y: 648,
+        x: 745,
+        y: 609,
         width: 88,
         height: 18,
       },
       parent: null,
       relations: [
-        'sx67o',
+        'n000ca',
       ],
       color: 'gray',
       line: 'dashed',
@@ -491,49 +558,25 @@
       label: 'emits',
       points: [
         [
-          330,
+          483,
           412,
         ],
         [
-          330,
-          478,
+          483,
+          456,
         ],
         [
-          330,
-          543,
+          483,
+          500,
         ],
         [
-          330,
-          609,
-        ],
-        [
-          330,
-          617,
-        ],
-        [
-          336,
-          623,
-        ],
-        [
-          344,
-          623,
-        ],
-        [
-          378,
-          623,
-        ],
-        [
-          412,
-          623,
-        ],
-        [
-          446,
-          623,
+          483,
+          544,
         ],
       ],
       labelBBox: {
-        x: 291,
-        y: 509,
+        x: 444,
+        y: 469,
         width: 37,
         height: 18,
       },
@@ -552,25 +595,49 @@
       label: 'processed collection data',
       points: [
         [
-          395,
-          412,
+          354,
+          345,
         ],
         [
-          395,
-          826,
+          345,
+          345,
         ],
         [
-          395,
-          1241,
+          336,
+          345,
         ],
         [
-          395,
+          327,
+          345,
+        ],
+        [
+          319,
+          345,
+        ],
+        [
+          313,
+          351,
+        ],
+        [
+          313,
+          359,
+        ],
+        [
+          313,
+          791,
+        ],
+        [
+          313,
+          1223,
+        ],
+        [
+          313,
           1655,
         ],
       ],
       labelBBox: {
-        x: 231,
-        y: 1025,
+        x: 149,
+        y: 991,
         width: 162,
         height: 18,
       },
@@ -589,24 +656,24 @@
       label: '[...]',
       points: [
         [
-          577,
+          538,
           690,
         ],
         [
-          577,
+          538,
           734,
         ],
         [
-          577,
+          538,
           778,
         ],
         [
-          577,
+          538,
           822,
         ],
       ],
       labelBBox: {
-        x: 550,
+        x: 511,
         y: 747,
         width: 25,
         height: 18,
@@ -624,58 +691,143 @@
       id: '1mttvcg',
       source: 'feature2Building',
       target: 'precomputeBoundary',
-      label: 'prepares',
+      label: 'zone geometry + location',
       points: [
         [
-          753,
+          631,
           623,
         ],
         [
-          823,
+          812,
           623,
         ],
         [
-          893,
+          992,
           623,
         ],
         [
-          963,
+          1173,
           623,
         ],
         [
-          971,
+          1181,
           623,
         ],
         [
-          977,
+          1187,
           629,
         ],
         [
-          977,
+          1187,
           637,
         ],
         [
-          977,
+          1187,
           699,
         ],
         [
-          977,
+          1187,
           760,
         ],
         [
-          977,
+          1187,
           822,
         ],
       ],
       labelBBox: {
-        x: 836,
+        x: 912,
         y: 601,
-        width: 59,
+        width: 161,
         height: 18,
       },
       parent: null,
       relations: [
-        '17k456f',
+        'of4gto',
+      ],
+      color: 'gray',
+      line: 'dashed',
+      head: 'normal',
+    },
+    {
+      id: '1l5rgmk',
+      source: 'feature2Building',
+      target: 'resultsAggregation',
+      label: 'supplies External loads',
+      points: [
+        [
+          335,
+          623,
+        ],
+        [
+          332,
+          623,
+        ],
+        [
+          328,
+          623,
+        ],
+        [
+          325,
+          623,
+        ],
+        [
+          319,
+          623,
+        ],
+        [
+          315,
+          627,
+        ],
+        [
+          315,
+          633,
+        ],
+        [
+          315,
+          903,
+        ],
+        [
+          315,
+          1173,
+        ],
+        [
+          315,
+          1443,
+        ],
+        [
+          315,
+          1451,
+        ],
+        [
+          321,
+          1457,
+        ],
+        [
+          329,
+          1457,
+        ],
+        [
+          353,
+          1457,
+        ],
+        [
+          378,
+          1457,
+        ],
+        [
+          402,
+          1457,
+        ],
+      ],
+      labelBBox: {
+        x: 165,
+        y: 1031,
+        width: 148,
+        height: 18,
+      },
+      parent: null,
+      relations: [
+        'wmuzct',
       ],
       color: 'gray',
       line: 'dashed',
@@ -688,55 +840,55 @@
       label: 'boundary conditions',
       points: [
         [
-          977,
+          1187,
           968,
         ],
         [
-          977,
+          1187,
           1034,
         ],
         [
-          977,
+          1187,
           1099,
         ],
         [
-          977,
+          1187,
           1165,
         ],
         [
-          977,
+          1187,
           1173,
         ],
         [
-          971,
+          1181,
           1179,
         ],
         [
-          963,
+          1173,
           1179,
         ],
         [
-          908,
+          1120,
           1179,
         ],
         [
-          853,
+          1068,
           1179,
         ],
         [
-          798,
+          1015,
           1179,
         ],
       ],
       labelBBox: {
-        x: 846,
+        x: 1056,
         y: 1065,
         width: 129,
         height: 18,
       },
       parent: null,
       relations: [
-        'gv0a98',
+        'ssw3bu',
       ],
       color: 'gray',
       line: 'dashed',
@@ -749,31 +901,55 @@
       label: 'writes boundary results',
       points: [
         [
-          886,
+          1219,
           968,
         ],
         [
-          886,
-          1197,
+          1219,
+          1219,
         ],
         [
-          886,
-          1426,
+          1219,
+          1469,
         ],
         [
-          886,
-          1655,
+          1219,
+          1720,
+        ],
+        [
+          1219,
+          1728,
+        ],
+        [
+          1213,
+          1734,
+        ],
+        [
+          1205,
+          1734,
+        ],
+        [
+          1093,
+          1734,
+        ],
+        [
+          982,
+          1734,
+        ],
+        [
+          870,
+          1734,
         ],
       ],
       labelBBox: {
-        x: 736,
-        y: 1303,
+        x: 1069,
+        y: 1342,
         width: 148,
         height: 18,
       },
       parent: null,
       relations: [
-        'gbki0b',
+        '3zwnpf',
       ],
       color: 'gray',
       line: 'dashed',
@@ -786,31 +962,55 @@
       label: 'emits',
       points: [
         [
-          634,
-          1246,
+          698,
+          1179,
         ],
         [
-          634,
-          1290,
+          651,
+          1179,
         ],
         [
-          634,
-          1334,
+          604,
+          1179,
         ],
         [
-          634,
+          557,
+          1179,
+        ],
+        [
+          549,
+          1179,
+        ],
+        [
+          543,
+          1185,
+        ],
+        [
+          543,
+          1193,
+        ],
+        [
+          543,
+          1255,
+        ],
+        [
+          543,
+          1316,
+        ],
+        [
+          543,
           1378,
         ],
       ],
       labelBBox: {
-        x: 595,
-        y: 1303,
+        x: 504,
+        y: 1270,
         width: 37,
         height: 18,
       },
       parent: null,
       relations: [
-        '76neav',
+        '1yq2hbg',
       ],
       color: 'gray',
       line: 'dashed',
@@ -823,33 +1023,33 @@
       label: 'persists',
       points: [
         [
-          745,
+          646,
           1524,
         ],
         [
-          745,
+          646,
           1568,
         ],
         [
-          745,
+          646,
           1611,
         ],
         [
-          745,
+          646,
           1655,
         ],
       ],
       labelBBox: {
-        x: 691,
+        x: 592,
         y: 1581,
         width: 52,
         height: 18,
       },
       parent: null,
       relations: [
-        'l9qh0',
-        '6eze3p',
-        'gv7jra',
+        'j9yp3',
+        'i4fr5s',
+        'vyvdy9',
       ],
       color: 'gray',
       line: 'dashed',
@@ -862,31 +1062,31 @@
       label: 'selective GIS projection',
       points: [
         [
-          538,
+          439,
           1524,
         ],
         [
-          538,
+          439,
           1568,
         ],
         [
-          538,
+          439,
           1611,
         ],
         [
-          538,
+          439,
           1655,
         ],
       ],
       labelBBox: {
-        x: 385,
+        x: 286,
         y: 1581,
         width: 151,
         height: 18,
       },
       parent: null,
       relations: [
-        '1a4vm07',
+        '1bw5yte',
       ],
       color: 'gray',
       line: 'dashed',
@@ -899,32 +1099,32 @@
       label: '[...]',
       points: [
         [
-          451,
+          345,
           1801,
         ],
         [
-          451,
+          345,
           1845,
         ],
         [
-          451,
+          345,
           1890,
         ],
         [
-          451,
+          345,
           1934,
         ],
       ],
       labelBBox: {
-        x: 424,
+        x: 318,
         y: 1859,
         width: 25,
         height: 18,
       },
       parent: null,
       relations: [
-        'qzx0jj',
-        '1tpjq2e',
+        'r240l8',
+        '1wc5t4r',
       ],
       color: 'gray',
       line: 'dashed',
