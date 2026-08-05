@@ -33,15 +33,15 @@ model {
     }
 
     constructionArchetype = domainObject 'Construction Archetype' {
-      description 'Construction properties assigned to Zones and Faces'
+      description 'Construction properties assigned to ZoneConstruction and Faces'
     }
 
     systemsArchetype = domainObject 'Systems Archetype' {
-      description 'Conditioning-system properties assigned to Zones'
+      description 'Conditioning-system properties assigned to per-Zone Systems'
     }
 
     energyLoadsArchetype = domainObject 'Energy Loads Archetype' {
-      description 'Energy-load schedules assigned to Zones'
+      description 'Energy-load schedules assigned to per-Zone Energy Loads'
     }
 
     building = domainObject 'Building' {
@@ -49,9 +49,21 @@ model {
     }
 
     zones = domainObject 'Zones' {
-      description 'Multiple simulation zones owned by a Building'
+      description 'Multiple simulation zones owned by a Building, each with construction, systems, and energy-load components'
       style {
         multiple true
+      }
+
+      zoneConstruction = domainObject 'ZoneConstruction' {
+        description 'Thermal Mass and Infiltration Rate assigned to a Zone'
+      }
+
+      systems = domainObject 'Systems' {
+        description 'Conditioning systems assigned to a Zone'
+      }
+
+      energyLoads = domainObject 'Energy Loads' {
+        description 'Energy-load schedules assigned to a Zone'
       }
     }
 
@@ -60,6 +72,23 @@ model {
       style {
         multiple true
       }
+
+      materialInfo = data 'Material Info' {
+        description 'Material properties associated with a Face'
+      }
+
+      contextInfo = data 'Context Info' {
+        description 'Contextual information associated with a Face'
+      }
+
+      geometryInfo = data 'Geometry Info' {
+        description 'Geometric information associated with a Face'
+      }
+
+      windowInfo = data 'Window Info' {
+        description 'Window information associated with a Face'
+      }
+
     }
 
     feature -> constructionArchetype 'emits'
@@ -68,10 +97,10 @@ model {
     feature -> building 'supplies geometric information'
     building -> zones 'owns'
     zones -> faces 'owns'
-    constructionArchetype -> zones 'supplies Thermal Mass + Infiltration Rate'
-    constructionArchetype -> faces 'supplies U Value + WWR'
-    systemsArchetype -> zones 'supplies conditioning systems'
-    energyLoadsArchetype -> zones 'supplies schedules'
+    constructionArchetype -> zones.zoneConstruction 'supplies Thermal Mass + Infiltration Rate'
+    constructionArchetype -> faces.materialInfo 'supplies U Value + WWR'
+    systemsArchetype -> zones.systems 'supplies conditioning systems'
+    energyLoadsArchetype -> zones.energyLoads 'supplies schedules'
   }
 
   definitionTables = system 'Definition Tables' {

@@ -66,6 +66,33 @@ views {
   view feature2BuildingDetails of feature2Building {
     title 'Feature2Building (F2B)'
     include *
+    include
+      feature2Building.zones with {
+        navigateTo zonesDetails
+      }
+    include
+      feature2Building.faces with {
+        navigateTo facesDetails
+      }
+    autoLayout LeftRight 80 55
+  }
+
+  view zonesDetails of feature2Building.zones {
+    title 'Zones'
+    include feature2Building.constructionArchetype
+    include feature2Building.systemsArchetype
+    include feature2Building.energyLoadsArchetype
+    include *
+    include
+      feature2Building.faces with {
+        navigateTo facesDetails
+      }
+    autoLayout LeftRight 80 55
+  }
+
+  view facesDetails of feature2Building.faces {
+    title 'Faces'
+    include *
     autoLayout LeftRight 80 55
   }
 

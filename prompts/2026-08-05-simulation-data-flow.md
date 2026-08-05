@@ -30,8 +30,12 @@ Show these concepts and responsibilities:
   Construction, Systems, and Energy Loads archetypes, and supplies geometric information
   to Building.
 - Building ownership of multiple Zones and Zone ownership of multiple Faces inside F2B.
-- Construction Archetype properties for Zones and Faces, Systems Archetype conditioning
-  systems for Zones, and Energy Loads Archetype schedules for Zones.
+- A Zones drilldown containing ZoneConstruction, Systems, and Energy Loads, plus a reused
+  projection of the existing multiple Faces element linking to its own drilldown.
+- Construction Archetype properties for ZoneConstruction and Faces Material Info, Systems
+  Archetype conditioning systems for Systems, and Energy Loads Archetype schedules for
+  Energy Loads.
+- A Faces drilldown containing Material Info, Context Info, Geometry Info, and Window Info.
 - A collapsed Definition Tables system containing Building and Zone definition tables.
   Zone definitions include energy-load time series.
 - A collapsed Precompute Boundary Conditions stage with Local Weather, Face Radiation,
@@ -64,11 +68,14 @@ Use this as the semantic source of truth:
 3. Preprocessing emits Feature within Feature2Building (`F2B`).
 4. Feature emits Construction Archetype, Systems Archetype, and Energy Loads Archetype,
    and supplies geometric information to Building.
-5. `F2B` contains Feature, all three archetypes, Building, multiple Zones, and multiple
-   Faces. Building owns Zones, and Zones own Faces.
-6. Construction Archetype supplies Thermal Mass and Infiltration Rate to Zones and
-   supplies U Value and WWR to Faces. Systems Archetype supplies conditioning systems to
-   Zones. Energy Loads Archetype supplies schedules to Zones.
+5. `F2B` contains Feature, all three archetypes, Building, multiple Zones, and one shared
+   multiple Faces element. Building owns Zones, and Zones own Faces. Zones contains
+   ZoneConstruction, Systems, and Energy Loads. Faces contains Material Info, Context Info,
+   Geometry Info, and Window Info.
+6. Construction Archetype supplies Thermal Mass and Infiltration Rate to ZoneConstruction
+   and supplies U Value and WWR to Faces Material Info. Systems Archetype supplies
+   conditioning systems to Systems. Energy Loads Archetype supplies schedules to Energy
+   Loads.
 7. Building definitions are written to the building definition table. Zone definitions,
    including energy-load time series, are written to the zone definition table.
 8. Zones feed Local Weather inside Precompute Boundary Conditions with zone geometry and
@@ -138,6 +145,11 @@ the minimum necessary evidence here.
 - Show Feature2Building as one collapsed stage with a scoped detail view containing
   Feature, Construction Archetype, Systems Archetype, Energy Loads Archetype, Building,
   `Zones`, and `Faces`. Render both Zones and Faces with `multiple true`.
+- Make Zones and Faces clickable in the F2B detail view. Zones opens a scoped view with
+  ZoneConstruction, Systems, Energy Loads, and the same shared Faces model element; that
+  Faces card navigates to the Faces scoped view.
+- In the Faces view, show Material Info, Context Info, Geometry Info, and Window Info as
+  compact data cards.
 - Show Precompute Boundary Conditions as one collapsed stage in the main view. Its scoped
   detail view includes external Zones and Weather Input, internal Local Weather, Face
   Radiation, and Boundary Conditions substages, and external Zone5R1C Simulation.
@@ -159,10 +171,11 @@ the minimum necessary evidence here.
 - Feature emits Construction Archetype, Systems Archetype, and Energy Loads Archetype and
   supplies geometric information to Building.
 - Building owns Zones; Zones own Faces; both Zones and Faces render as multiple instances.
-- Construction Archetype supplies Thermal Mass and Infiltration Rate to Zones and U Value
-  and WWR to Faces.
-- Systems Archetype supplies conditioning systems to Zones, and Energy Loads Archetype
-  supplies schedules to Zones.
+- Construction Archetype supplies Thermal Mass and Infiltration Rate to ZoneConstruction
+  and U Value and WWR to Faces Material Info; it does not target the Faces container.
+- Systems Archetype supplies conditioning systems to Systems, and Energy Loads Archetype
+  supplies schedules to Energy Loads. None of those three relationships targets the Zones
+  parent directly.
 - Energy Loads Archetype directly supplies External loads to SiteEnergyResult without
   passing through ZoneResult.
 - The External Loads relationship is excluded only from the main `simulationDataFlow`
@@ -190,6 +203,11 @@ the minimum necessary evidence here.
   Conditions, Zone5R1C Simulation, Results Aggregation.
 - Feature, all three archetypes, Building, Zones, and Faces are nested within
   Feature2Building; Zones and Faces are plural and rendered as multiple instances.
+- Zones contains ZoneConstruction, Systems, and Energy Loads. Its scoped view also projects
+  the existing Faces element rather than defining a duplicate Faces model element.
+- Faces contains Material Info, Context Info, Geometry Info, and Window Info.
+- Zones and Faces navigate from the F2B detail view; the reused Faces card in the Zones
+  view navigates to the same Faces detail view.
 - Feature2Building, Precompute Boundary Conditions, and Results Aggregation are collapsed
   in the main view and each navigates to a named scoped detail view.
 - Definition Tables, Result Tables, and GIS Tables are collapsed storage-shaped cards;

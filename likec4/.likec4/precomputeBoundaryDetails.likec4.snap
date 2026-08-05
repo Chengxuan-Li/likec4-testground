@@ -13,7 +13,7 @@
     nodeSep: 55,
     rankSep: 80,
   },
-  hash: '4019N_ENmvtVAAE2aKg6aTaZ15vgTtxow3lEKp1bhZk',
+  hash: 'M7VxZhB98ORHjTW20ozC8Re6udgUj2nWHREGEqggiMo',
   bounds: {
     x: 0,
     y: 0,
@@ -119,10 +119,11 @@
         multiple: true,
       },
       description: {
-        txt: 'Multiple simulation zones owned by a Building',
+        txt: 'Multiple simulation zones owned by a Building, each with construction, systems, and energy-load components',
       },
       tags: [],
       kind: 'domainObject',
+      navigateTo: 'zonesDetails',
       x: 40,
       y: 61,
       width: 180,

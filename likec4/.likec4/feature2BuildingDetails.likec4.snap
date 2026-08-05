@@ -13,7 +13,7 @@
     nodeSep: 55,
     rankSep: 80,
   },
-  hash: '1Vy1aph8qw7ZVm1RgQN038WHhQAz80ZgMWBFz5ICK2I',
+  hash: 'A1hPxaO6cXv7CmA9iPD7qiEcxSN55oQLIdrr6owMLEo',
   bounds: {
     x: 0,
     y: 0,
@@ -165,7 +165,7 @@
         size: 'xs',
       },
       description: {
-        txt: 'Construction properties assigned to Zones and Faces',
+        txt: 'Construction properties assigned to ZoneConstruction and Faces',
       },
       tags: [],
       kind: 'domainObject',
@@ -200,7 +200,7 @@
         size: 'xs',
       },
       description: {
-        txt: 'Conditioning-system properties assigned to Zones',
+        txt: 'Conditioning-system properties assigned to per-Zone Systems',
       },
       tags: [],
       kind: 'domainObject',
@@ -236,7 +236,7 @@
         size: 'xs',
       },
       description: {
-        txt: 'Energy-load schedules assigned to Zones',
+        txt: 'Energy-load schedules assigned to per-Zone Energy Loads',
       },
       tags: [],
       kind: 'domainObject',
@@ -349,10 +349,12 @@
         multiple: true,
       },
       description: {
-        txt: 'Multiple simulation zones owned by a Building',
+        txt: 'Multiple simulation zones owned by a Building, each with construction, systems, and energy-load components',
       },
       tags: [],
       kind: 'domainObject',
+      navigateTo: 'zonesDetails',
+      isCustomized: true,
       x: 1368,
       y: 397,
       width: 180,
@@ -388,6 +390,8 @@
       },
       tags: [],
       kind: 'domainObject',
+      navigateTo: 'facesDetails',
+      isCustomized: true,
       x: 1934,
       y: 397,
       width: 180,
@@ -808,7 +812,7 @@
       },
       parent: 'feature2Building',
       relations: [
-        '1mwj042',
+        '1gm2kzj',
       ],
       color: 'gray',
       line: 'dashed',
@@ -869,7 +873,7 @@
       },
       parent: 'feature2Building',
       relations: [
-        'zsaszu',
+        '1r218kh',
       ],
       color: 'gray',
       line: 'dashed',
@@ -906,7 +910,7 @@
       },
       parent: 'feature2Building',
       relations: [
-        'ey8fzz',
+        'f0hrhj',
       ],
       color: 'gray',
       line: 'dashed',
@@ -967,7 +971,7 @@
       },
       parent: 'feature2Building',
       relations: [
-        'zox0l9',
+        'e9o5ms',
       ],
       color: 'gray',
       line: 'dashed',
