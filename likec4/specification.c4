@@ -1,0 +1,69 @@
+specification {
+  color processing #5B6ED6
+  color domain #79A7D3
+  color datastore #718096
+
+  element input {
+    style {
+      shape document
+      color amber
+      size xsmall
+    }
+  }
+
+  element data {
+    style {
+      shape rectangle
+      color muted
+      size xsmall
+    }
+  }
+
+  element stage {
+    style {
+      shape rectangle
+      color processing
+      size small
+    }
+  }
+
+  element domainObject {
+    style {
+      shape rectangle
+      color domain
+      size xsmall
+    }
+  }
+
+  element result {
+    style {
+      shape rectangle
+      color green
+      size xsmall
+    }
+  }
+
+  element table {
+    style {
+      shape storage
+      color datastore
+      size xsmall
+    }
+  }
+
+  element output {
+    style {
+      shape document
+      color green
+      size xsmall
+    }
+  }
+
+  element system {
+    style {
+      shape rectangle
+      color gray
+      size small
+    }
+  }
+}

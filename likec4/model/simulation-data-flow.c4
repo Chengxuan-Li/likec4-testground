@@ -1,0 +1,181 @@
+model {
+  inputs = system 'Inputs' {
+    description 'External file and weather inputs'
+    style {
+      color amber
+      shape person
+    }
+
+    inputGeojson = input 'Input GeoJSON' {
+      description 'Disk file containing the source geospatial features'
+    }
+
+    weather = input 'Weather Input' {
+      description 'Weather data used during Zone5R1C simulation'
+    }
+  }
+
+  preprocessing = stage 'Preprocessing' {
+    description 'Schema matching, geometric preprocessing, and archetype assignment'
+    icon gcp:dataflow
+  }
+
+  feature2Building = stage 'Feature2Building (F2B)' {
+    description 'Builds domain objects and archetype assignments from a preprocessed Feature'
+    icon gcp:cloud-functions
+    style {
+      opacity 12%
+      border solid
+    }
+
+    feature = domainObject 'Feature' {
+      description 'Preprocessed geospatial feature used to construct and characterize a Building'
+    }
+
+    constructionArchetype = domainObject 'Construction Archetype' {
+      description 'Construction properties assigned to Zones and Faces'
+    }
+
+    systemsArchetype = domainObject 'Systems Archetype' {
+      description 'Conditioning-system properties assigned to Zones'
+    }
+
+    energyLoadsArchetype = domainObject 'Energy Loads Archetype' {
+      description 'Energy-load schedules assigned to Zones'
+    }
+
+    building = domainObject 'Building' {
+      description 'Simulation-domain building constructed from Feature geometry'
+    }
+
+    zones = domainObject 'Zones' {
+      description 'Multiple simulation zones owned by a Building'
+      style {
+        multiple true
+      }
+    }
+
+    faces = domainObject 'Faces' {
+      description 'Multiple geometric faces owned by Zones'
+      style {
+        multiple true
+      }
+    }
+
+    feature -> constructionArchetype 'emits'
+    feature -> systemsArchetype 'emits'
+    feature -> energyLoadsArchetype 'emits'
+    feature -> building 'supplies geometric information'
+    building -> zones 'owns'
+    zones -> faces 'owns'
+    constructionArchetype -> zones 'supplies Thermal Mass + Infiltration Rate'
+    constructionArchetype -> faces 'supplies U Value + WWR'
+    systemsArchetype -> zones 'supplies conditioning systems'
+    energyLoadsArchetype -> zones 'supplies schedules'
+  }
+
+  definitionTables = system 'Definition Tables' {
+    description 'Building and Zone definitions'
+    style {
+      shape storage
+    }
+
+    buildingDefinitionTable = table 'Building Definition Table' {
+      description 'Stores Building definitions'
+    }
+
+    zoneDefinitionTable = table 'Zone Definition Table' {
+      description 'Stores Zone definitions, including energy-load time series'
+    }
+  }
+
+  precomputeBoundary = stage 'Precompute Boundary Conditions' {
+    description 'Precomputes boundary conditions required by Zone5R1C'
+    icon gcp:dataflow
+  }
+
+  zone5R1C = stage 'Zone5R1C Simulation' {
+    description 'Simulates prepared Zone5R1C objects with weather input'
+    icon gcp:compute-engine
+  }
+
+  resultsAggregation = stage 'Results Aggregation' {
+    description 'Zone, Building, and Site result aggregation'
+    icon gcp:big-query
+
+    zoneResult = result 'ZoneResult' {
+      description 'Zone-level simulation result'
+    }
+
+    buildingResult = result 'BuildingResult' {
+      description 'Building-level aggregate result'
+    }
+
+    siteEnergyResult = result 'SiteEnergyResult' {
+      description 'Site-level aggregate energy result'
+    }
+
+    zoneResult -> buildingResult 'aggregates into'
+    buildingResult -> siteEnergyResult 'aggregates into'
+  }
+
+  resultTables = system 'Result Tables' {
+    description 'Persistent simulation-result tables'
+    style {
+      shape storage
+    }
+
+    zoneResultTable = table 'Zone Result Table' {
+      description 'Persists ZoneResult records and boundary results'
+    }
+
+    buildingResultTable = table 'Building Result Table' {
+      description 'Persists BuildingResult records'
+    }
+
+    siteEnergyResultTable = table 'Site Energy Result Table' {
+      description 'Persists SiteEnergyResult records'
+    }
+  }
+
+  gisTables = system 'GIS Tables' {
+    description 'GIS properties and selected result projections'
+    style {
+      shape storage
+    }
+
+    gisPropertiesTable = table 'GIS Properties Table' {
+      description 'Stores processed feature properties for GIS export'
+    }
+
+    gisResultTable = table 'GIS Result Table' {
+      description 'Stores a selective GIS projection of site energy results'
+    }
+  }
+
+  resultsGeojson = output 'Results GeoJSON' {
+    description 'GeoJSON exported from GIS properties and GIS results'
+    icon gcp:cloud-storage
+  }
+
+  inputs.inputGeojson -> preprocessing 'feature data'
+  preprocessing -> gisTables.gisPropertiesTable 'processed collection data'
+  preprocessing -> feature2Building.feature 'emits'
+
+  feature2Building.building -> definitionTables.buildingDefinitionTable 'writes definition'
+  feature2Building.zones -> definitionTables.zoneDefinitionTable 'writes definition + load series'
+  feature2Building.zones -> precomputeBoundary 'prepares'
+
+  precomputeBoundary -> zone5R1C 'boundary conditions'
+  inputs.weather -> zone5R1C 'weather input'
+  zone5R1C -> resultsAggregation.zoneResult 'emits'
+
+  precomputeBoundary -> resultTables.zoneResultTable 'writes boundary results'
+  resultsAggregation.zoneResult -> resultTables.zoneResultTable 'persists'
+  resultsAggregation.buildingResult -> resultTables.buildingResultTable 'persists'
+  resultsAggregation.siteEnergyResult -> resultTables.siteEnergyResultTable 'persists'
+
+  resultsAggregation.siteEnergyResult -> gisTables.gisResultTable 'selective GIS projection'
+  gisTables.gisPropertiesTable -> resultsGeojson 'exports properties'
+  gisTables.gisResultTable -> resultsGeojson 'exports results'
+}

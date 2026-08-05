@@ -1,0 +1,85 @@
+views {
+  view simulationDataFlow {
+    title 'Simulation Stages and Data Flow'
+    description 'From GeoJSON ingestion through simulation, aggregation, persistence, and GIS export'
+
+    group 'Simulation Processing' {
+      color indigo
+      opacity 10%
+      border solid
+
+      include preprocessing
+      include
+        feature2Building with {
+          navigateTo feature2BuildingDetails
+        }
+      include precomputeBoundary
+      include zone5R1C
+      include
+        resultsAggregation with {
+          navigateTo resultsAggregationDetails
+        }
+    }
+
+    include
+      inputs with {
+        navigateTo inputsDetails
+      }
+    include
+      definitionTables with {
+        navigateTo definitionTablesDetails
+      }
+    include
+      resultTables with {
+        navigateTo resultTablesDetails
+      }
+    include
+      gisTables with {
+        navigateTo gisTablesDetails
+      }
+    include resultsGeojson
+
+    rank same {
+      definitionTables, resultTables, gisTables
+    }
+
+    autoLayout LeftRight 80 55
+  }
+
+  view inputsDetails of inputs {
+    title 'Inputs'
+    include *
+    autoLayout LeftRight 80 55
+  }
+
+  view definitionTablesDetails of definitionTables {
+    title 'Definition Tables'
+    include *
+    autoLayout LeftRight 80 55
+  }
+
+  view feature2BuildingDetails of feature2Building {
+    title 'Feature2Building (F2B)'
+    include *
+    autoLayout LeftRight 80 55
+  }
+
+  view resultsAggregationDetails of resultsAggregation {
+    title 'Results Aggregation'
+    include *
+    autoLayout LeftRight 80 55
+  }
+
+  view resultTablesDetails of resultTables {
+    title 'Result Tables'
+    include *
+    autoLayout LeftRight 80 55
+  }
+
+  view gisTablesDetails of gisTables {
+    title 'GIS Tables'
+    include *
+    include resultsGeojson
+    autoLayout LeftRight 80 55
+  }
+}
