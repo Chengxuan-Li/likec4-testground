@@ -1,0 +1,13 @@
+{
+  "$comment": "Connector routing for the orthogonal-router tool. Orthogonal routing is on by default for every view; add a view id under \"views\" to override or opt out.",
+  "default": {
+    "orthogonal": true,
+    "cornerRadius": 14,
+    "laneSpacing": 16,
+    "nodeMargin": 10,
+    "arrowGap": 11,
+    "stub": 20,
+    "labelOffset": 22
+  },
+  "views": {}
+}

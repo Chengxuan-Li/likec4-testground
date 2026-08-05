@@ -9,6 +9,8 @@ These instructions apply to the entire repository.
 - Do not write to `EnergyAtlasWiki`, deploy MkDocs content, or prepare a Wiki commit unless the user explicitly authorizes that separate publication phase.
 - Store human-authored diagram requests under `prompts/`.
 - Store executable LikeC4 source under `likec4/` and local approval renders under `review/`.
+- Store connector-routing tooling under `tools/`. Its `node_modules/` is the only installed
+  dependency tree in this repository and is git-ignored.
 - Store private workflow guidance and design records in this repository only.
 - Never stage or commit changes in this repository. Leave all work as uncommitted working-tree files for user review.
 
@@ -38,10 +40,19 @@ Use these defaults unless a diagram prompt records a reason to depart from them:
 - Compose on a visible grid. Establish the primary reading order before adding secondary
   relationships, align peers into ranks, and reserve whitespace between ranks as routing
   corridors. A vertically scrolling Wiki view should normally use at most four columns.
-- Prefer horizontal and vertical relationship travel, cardinal attachment points, short
-  labels on straight portions, and few crossings. Native LikeC4 relationship views may
-  curve or round routes; never describe them as strictly orthogonal unless the renderer
-  actually produces only horizontal/vertical segments and 90-degree elbows.
+- Relationship connectors travel only horizontally and vertically, joined by rounded
+  90-degree elbows, attach at cardinal points, carry short labels on straight portions, and
+  cross rarely. LikeC4's own layout produces curved diagonal splines; the orthogonal routes
+  come from `tools/orthogonal-router`, which re-routes edges into the whitespace Graphviz
+  left and writes native `.likec4.snap` manual-layout files that both the interactive viewer
+  and the PNG export read. Node placement is still entirely Graphviz's.
+- Snapshots are geometry, not source. Regenerate them with the router after any model or view
+  edit, before exporting or reviewing; a stale snapshot silently keeps the old routing. The
+  router always rebuilds from pristine auto-layout, so re-running it is safe and idempotent.
+- The router's geometry checker asserts every emitted segment is axis-aligned or a
+  quarter-circle corner and that no route crosses a node rectangle. Only claim routes are
+  strictly orthogonal while that check passes; if it reports a fallback edge, that edge kept
+  its original spline and must be described as such.
 - LikeC4 does not allow a direct relationship between a container and its immediate
   child. Convey parent-to-child delegation through concise container labels and model
   descriptions. If explicit call-order arrows are essential, use approved conceptual
@@ -61,7 +72,7 @@ During visual review, compare the render at normal Wiki width against these chec
 3. Nested boundaries remain distinguishable without saturated fills.
 4. Cards and labels remain legible without excessive zoom.
 5. Primary relationships are shorter and clearer than secondary relationships.
-6. Any non-orthogonal routing limitation is visible and described honestly.
+6. The router reported zero violations and zero fallback edges for the exported view.
 
 ## Future public-output safety
 

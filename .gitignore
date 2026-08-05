@@ -1,0 +1,23 @@
+# Dependencies. tools/orthogonal-router is the only installed tree in this repository.
+node_modules/
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.vscode/
+.idea/
+
+# Deliberately NOT ignored, despite being generated:
+#
+#   likec4/.likec4/*.likec4.snap
+#     Connector geometry produced by tools/orthogonal-router. A checkout without these files
+#     renders LikeC4's native diagonal splines instead of orthogonal routes, so they are part
+#     of what makes a render reproducible. Keeping them visible also matters because AGENTS.md
+#     requires all work to stay in the working tree for review; ignoring them would hide the
+#     router's output from `git status`.
+#
+#   tools/orthogonal-router/package-lock.json
+#     Pins the exact likec4 build that produced the approved render.

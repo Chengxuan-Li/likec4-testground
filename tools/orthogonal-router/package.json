@@ -1,0 +1,17 @@
+{
+  "name": "orthogonal-router",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Re-routes LikeC4 relationship connectors as strictly orthogonal paths with rounded corners, persisted as native manual-layout snapshots.",
+  "bin": {
+    "orthogonal-router": "./src/cli.mjs"
+  },
+  "scripts": {
+    "route": "node src/cli.mjs"
+  },
+  "dependencies": {
+    "json5": "^2.2.3",
+    "likec4": "1.59.2"
+  }
+}
